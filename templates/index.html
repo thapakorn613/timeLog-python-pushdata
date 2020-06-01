@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+{% block content %}
+<script type="text/javascript">
+    var autoUpdate = 0;
+
+    function getNextIdx() {
+        $.ajax({
+            type: "GET",
+            url: $SCRIPT_ROOT + "/get_data_mqtt/",
+            async: true,
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                console.log("success")
+                // $('#ts').text(data.ts);
+                $('#idx').text(data.value);
+                $('#cnt').text(data.cnt);
+                if (autoUpdate == 1) {
+                    console.log("autoUpdate == 1")
+                    //getNextIdx();
+                    // var interval = parseInt($('input[name="updateInterval"]').val(), 10);
+                    // setTimeout(getNextIdx, interval);
+                }
+            }
+        });
+    }
+
+</script>
+<strong>Enter update interval (ms):</strong>
+<input type="text" size="10" id="updateInterval" name="updateInterval" value="1000">
+<!-- <button onclick="getNextIdx();">Start to get data from MQTT </button> -->
+<!-- <button onclick="setAutoUpdate(0);">Stop idx loop </button> -->
+<!-- <button onclick="getNextIdx();">Get next idx </button>  -->
+<!-- <button onclick="resetIdx();">Reset idx</button> -->
+<strong>
+    <div id="idx"></div>
+</strong>
+<strong>
+    <div id="cnt"></div>
+</strong>
+{% endblock %}
